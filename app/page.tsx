@@ -1,95 +1,115 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
 
-export default function Home() {
+import { useEffect, useState } from "react";
+
+import { User } from "@/lib/data";
+import { Box, Button } from "@mui/material";
+import useDeviceDetect from "@/lib/responsive/usedeviceDetect";
+
+const HomePage = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  async function fetchUsers() {
+    const res = await fetch("/api/getdata");
+    const data = await res.json();
+
+    setUsers(data.users);
+  }
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const { isMobile } = useDeviceDetect();
+
+  if (isMobile()) {
+    return (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        {isClient ? (
+          <div>box</div>
+        ) : (
+          <Box sx={{ width: "1000px" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                gap: "30px",
+              }}
+            >
+              <Box className="info">User name</Box>
+              <Box className="info">Phone</Box>
+              <Box className="info">Address</Box>
+              <Box className="info">Email</Box>
+              <Box className="info">Data of Birth</Box>
+            </Box>
+
+            {users.map((user) => (
+              <Box
+                key={user.PHNM}
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "30px",
+                }}
+              >
+                <Box className="info">{user.USERNM}</Box>
+                <Box className="info">{user.PHNM}</Box>
+                <Box className="info">{user.USERADDR}</Box>
+                <Box className="info">{user.EMAILADDR}</Box>
+                <Box className="info">{user.BDT}</Box>
+              </Box>
+            ))}
+          </Box>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      {isClient ? (
+        <div>box</div>
+      ) : (
+        <Box sx={{ width: "1440px" }}>
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              gap: "30px",
+            }}
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+            <Box className="infodesk">User name</Box>
+            <Box className="infodesk">Phone</Box>
+            <Box className="infodesk">Address</Box>
+            <Box className="infodesk">Email</Box>
+            <Box className="infodesk">Data of Birth</Box>
+          </Box>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+          {users.map((user) => (
+            <Box
+              key={user.PHNM}
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                gap: "30px",
+              }}
+            >
+              <Box className="infodesk">{user.USERNM}</Box>
+              <Box className="infodesk">{user.PHNM}</Box>
+              <Box className="infodesk">{user.USERADDR}</Box>
+              <Box className="infodesk">{user.EMAILADDR}</Box>
+              <Box className="infodesk">{user.BDT}</Box>
+            </Box>
+          ))}
+        </Box>
+      )}
+    </div>
+  );
+};
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default HomePage;
