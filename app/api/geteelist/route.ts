@@ -1,16 +1,24 @@
-import { Eelist, User } from "@/lib/data";
+import { Eelist } from "@/lib/data";
 import { connect } from "mssql";
 import { NextResponse } from "next/server";
 import { IResult } from "mssql";
-import { dbConfig } from "../getdata/route";
+import { dbConfig, dbConfigCinet } from "../getdata/route";
 
 export async function GET(req: Request, res: Response) {
   try {
-    const connection = await connect(dbConfig);
+    const connection = await connect(dbConfigCinet);
     const query = `SELECT TOP (1000) [EEID]
       ,[EENM]
-      ,[EXTP]
-  FROM [BikeStores].[sales].[eelist2]`;
+      ,[BARCDMNGYN]
+      ,[NUMREGYN]
+      ,[EEPCTDAT]
+      ,[REGUSERID]
+      ,[REGDT]
+      ,[MODUSERID]
+      ,[MODDT]
+      ,[EETYCD]
+      ,[EEEXPATCD]
+  FROM [FMSDB].[FMS].[TEE_EEM]`;
     const results: IResult<any> = await connection.query(query);
 
     //   console.log("result::::", results);

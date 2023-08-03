@@ -2,10 +2,13 @@
 import {
   Box,
   Button,
+  Checkbox,
   Divider,
   Drawer,
   Fab,
   FormControl,
+  FormControlLabel,
+  FormGroup,
   IconButton,
   Input,
   InputAdornment,
@@ -32,8 +35,10 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Eelist } from "@/lib/data";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import axios from "axios";
+import { sweetTopSmallSuccessAlert } from "@/lib/sweetAlert";
+import Link from "next/link";
 
-const img_list = [
+let img_list = [
   "/1.jpeg",
   "/3.jpeg",
   "/images/1.jpg",
@@ -73,14 +78,26 @@ const Eqlist = () => {
   const [isClient, setIsClient] = useState(false);
   const { isMobile } = useDeviceDetect();
   const [age, setAge] = useState("");
+  const [subExer, setSubExer] = useState("");
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const exeSubcClass = [
+    { EEEXPATCD: "다용도", CD: "001" },
+    { EEEXPATCD: "엉덩이,다리", CD: "002" },
+    { EEEXPATCD: "등및 가슴", CD: "003" },
+    { EEEXPATCD: "팔과 어깨", CD: "004" },
+    { EEEXPATCD: "복근", CD: "005" },
+    { EEEXPATCD: "프리웨이트", CD: "006" },
+    { EEEXPATCD: "바", CD: "007" },
+    { EEEXPATCD: "벤치", CD: "008" },
+    { EEEXPATCD: "벤기타장비치", CD: "009" },
+  ];
+
   async function fetchEelist() {
     const res = await fetch("/api/geteelist");
     const data = await res.json();
-    console.log("EEList:::", data.eelist);
     setEelists(data.eelist);
   }
   useEffect(() => {
@@ -91,10 +108,14 @@ const Eqlist = () => {
     setAge(event.target.value);
   };
 
+  const handleChangeExer = (event: SelectChangeEvent) => {
+    setSubExer(event.target.value);
+  };
+
   interface table {
     id?: string;
-    EENM: string;
-    EXTP: string;
+    EENM: string | null;
+    REGDT: Date;
   }
 
   async function addEquipment(eenm: string, extp: string) {
@@ -111,11 +132,11 @@ const Eqlist = () => {
   const columns: GridColDef[] = [
     { field: "id", headerName: "운동기구아이디", width: 200 },
     { field: "EENM", headerName: "운동기구명", width: 200 },
-    { field: "EXTP", headerName: "운동명", width: 200 },
+    { field: "REGDT", headerName: "운동명", width: 200 },
   ];
   const rows: table[] = [];
   eelists.map((device: Eelist) => {
-    rows.push({ id: device.EEID, EENM: device.EENM, EXTP: device.EXTP });
+    rows.push({ id: device.EEID, EENM: device.EENM, REGDT: device.REGDT });
   });
 
   const handle_eenm = (e: any) => {
@@ -138,6 +159,19 @@ const Eqlist = () => {
           mt: "5px",
         }}
       >
+        <Box>
+          <Typography sx={{ m: 2, fontWeight: 600 }} textAlign="left">
+            위치 : 세종소방서{" "}
+          </Typography>
+        </Box>
+        {/* <Box sx={{ width: "100%" }}>
+          <FormGroup>
+            <FormControlLabel control={<Checkbox />} label="Label" />
+            <FormControlLabel control={<Checkbox />} label="Label" />
+            <FormControlLabel control={<Checkbox />} label="Label" />
+            <FormControlLabel control={<Checkbox />} label="Label" />
+          </FormGroup>
+        </Box> */}
         <Box
           sx={{
             width: "100%",
@@ -149,9 +183,23 @@ const Eqlist = () => {
           }}
         >
           <Box>
-            <Typography sx={{ m: 2, fontWeight: 600 }} textAlign="left">
-              위치 : 세종소방서{" "}
-            </Typography>
+            <FormControl sx={{ m: 1, minWidth: 150 }}>
+              <InputLabel id="demo-simple-select-label">운동소분류</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={subExer}
+                onChange={handleChangeExer}
+                label="운운동소분류"
+              >
+                <MenuItem value="">All</MenuItem>
+                {exeSubcClass.map((ele) => (
+                  <MenuItem sx={{ height: "20px" }} value={ele.CD}>
+                    {ele.EEEXPATCD}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Box>
           <Box>
             <FormControl sx={{ m: 1, minWidth: 150 }}>
@@ -165,12 +213,11 @@ const Eqlist = () => {
                 onChange={handleChange}
                 label="운동기구 리스트"
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {eelists.map((ee) => (
-                  <MenuItem value={ee.EEID}>{ee.EENM}</MenuItem>
-                ))}
+                <MenuItem value="">All</MenuItem>
+                {eelists.map((ee) => {
+                  if (ee.EEEXPATCD === subExer)
+                    return <MenuItem value={ee.EEID}>{ee.EENM}</MenuItem>;
+                })}
               </Select>
             </FormControl>
           </Box>
@@ -205,6 +252,9 @@ const Eqlist = () => {
           }}
         >
           <Button
+            onClick={() => {
+              sweetTopSmallSuccessAlert(" successfully", 700, false);
+            }}
             className="login_btn"
             sx={{
               width: "80px",
@@ -214,7 +264,9 @@ const Eqlist = () => {
             variant="contained"
             color="success"
           >
-            <Typography textAlign="center"> 확인</Typography>
+            <Link style={{ textDecorationLine: "none" }} href="/exercises">
+              <Typography textAlign="center"> 확인</Typography>
+            </Link>
           </Button>
         </Box>
       </Box>

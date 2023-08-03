@@ -1,4 +1,4 @@
-import { User } from "@/lib/data";
+import { Exercise } from "@/lib/data";
 import { connect } from "mssql";
 import { NextResponse } from "next/server";
 import { IResult } from "mssql";
@@ -16,28 +16,55 @@ export const dbConfig = {
   },
 };
 
+export const dbConfigCinet = {
+  server: "sql.cinet.global",
+  port: 1433,
+  user: "ncloud",
+  password: "cinetglobal12!@",
+  database: "FMSDB",
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
+    checkServerIdentity: () => undefined,
+    enableArithAbort: true,
+  },
+};
+
 export async function GET(request: Request, res: Response) {
   try {
-    const connection = await connect(dbConfig);
-    const query = `SELECT TOP (4) [USERID]
-      ,[USERNM]
-      ,[MBRJOINDE]
-      ,[ZIPCD]
-      ,[USERADDR]
-      ,[USERDTLADDR]
-      ,[EMAILADDR]
-      ,[PHNM]
-      ,[BDT]
-      ,[PSWD]
+    const connection = await connect(dbConfigCinet);
+    const query = `SELECT TOP (1000) [EXID]
+      ,[UPEXID]
+      ,[EXLVLCD]
+      ,[EXNM]
+      ,[EXTY]
+      ,[EXSCLSCD]
+      ,[EXLCLSCD]
+      ,[EEID]
+      ,[TIMEEPYN]
+      ,[DTCEPYN]
+      ,[SETEPYN]
+      ,[NOFEPYN]
+      ,[WITEPYN]
+      ,[VIDNM]
+      ,[EXENM]
+      ,[BASRM1WITRATE]
+      ,[BASSETNOF]
+      ,[BASEXNOF]
+      ,[STTEXID]
       ,[REGUSERID]
       ,[REGDT]
-  FROM [BikeStores].[sales].[TUR_USERM]`;
+      ,[MODUSERID]
+      ,[MODDT]
+      ,[EXBDPTCD]
+      ,[EXMTDDSC]
+      ,[VIDYN]
+  FROM [FMSDB].[FMS].[TEX_EXM]`;
     const results: IResult<any> = await connection.query(query);
 
     //   console.log("result::::", results);
 
-    const users = results.recordset as User[];
-    console.log("data::::", users);
+    const users = results.recordset as Exercise[];
 
     return NextResponse.json({ message: "OK", users }, { status: 200 });
   } catch (err) {

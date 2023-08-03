@@ -1,0 +1,234 @@
+.m {
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.m .div {
+  background-color: var(--white);
+  border: 1px none;
+  height: 844px;
+  position: relative;
+  width: 390px;
+}
+
+.m .type-default {
+  height: 39px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 390px;
+}
+
+.m .text-wrapper {
+  color: var(--others-black);
+  font-family: var(--body-large-semibold-font-family);
+  font-size: var(--body-large-semibold-font-size);
+  font-style: var(--body-large-semibold-font-style);
+  font-weight: var(--body-large-semibold-font-weight);
+  height: 23px;
+  left: 24px;
+  letter-spacing: var(--body-large-semibold-letter-spacing);
+  line-height: var(--body-large-semibold-line-height);
+  position: absolute;
+  top: 8px;
+  white-space: nowrap;
+}
+
+.m .group {
+  background-image: url(./exclude.svg);
+  background-size: 100% 100%;
+  height: 10px;
+  left: 304px;
+  position: absolute;
+  top: 16px;
+  width: 18px;
+}
+
+.m .group-2 {
+  background-image: url(./union.svg);
+  background-size: 100% 100%;
+  height: 11px;
+  left: 327px;
+  position: absolute;
+  top: 15px;
+  width: 15px;
+}
+
+.m .img {
+  height: 13px;
+  left: 348px;
+  position: absolute;
+  top: 14px;
+  width: 27px;
+}
+
+.m .frame {
+  align-items: center;
+  display: flex;
+  left: 83px;
+  position: absolute;
+  top: 183px;
+  width: 205px;
+}
+
+.m .bx-dumbbell {
+  height: 76px;
+  position: relative;
+  width: 76px;
+}
+
+.m .h-1 {
+  color: var(--point);
+  font-family: "Noto Sans KR-Black", Helvetica;
+  font-size: 32.3px;
+  font-weight: 900;
+  letter-spacing: -0.97px;
+  line-height: 32.3px;
+  margin-left: -4.55px;
+  position: relative;
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.m .vector {
+  height: 1px;
+  left: 16px;
+  object-fit: cover;
+  position: absolute;
+  top: 354px;
+  width: 358px;
+}
+
+.m .vector-2 {
+  height: 1px;
+  left: 16px;
+  object-fit: cover;
+  position: absolute;
+  top: 410px;
+  width: 358px;
+}
+
+.m .text-wrapper-2 {
+  color: var(--gray);
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 16px;
+  font-weight: 500;
+  height: 22px;
+  left: 32px;
+  letter-spacing: -0.8px;
+  line-height: normal;
+  position: absolute;
+  top: 319px;
+  width: 75px;
+}
+
+.m .overlap-group {
+  background-color: #4582e9;
+  border-radius: 10px;
+  height: 56px;
+  left: 16px;
+  position: absolute;
+  top: 443px;
+  width: 358px;
+}
+
+.m .text-wrapper-3 {
+  color: var(--white);
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 16px;
+  font-weight: 500;
+  height: 22px;
+  left: 123px;
+  letter-spacing: -0.8px;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 16px;
+  width: 111px;
+}
+
+.m .text-wrapper-4 {
+  color: var(--gray);
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 16px;
+  font-weight: 500;
+  height: 22px;
+  left: 32px;
+  letter-spacing: -0.8px;
+  line-height: normal;
+  position: absolute;
+  top: 375px;
+  width: 111px;
+}
+
+.m .group-3 {
+  height: 23px;
+  left: 55px;
+  position: absolute;
+  top: 515px;
+  width: 286px;
+}
+
+.m .text-wrapper-5 {
+  color: var(--dark-gray);
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  height: 22px;
+  left: 226px;
+  letter-spacing: -0.7px;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 54px;
+}
+
+.m .text-wrapper-6 {
+  color: var(--dark-gray);
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  height: 22px;
+  left: 106px;
+  letter-spacing: -0.7px;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 1px;
+  width: 80px;
+}
+
+.m .text-wrapper-7 {
+  color: var(--dark-gray);
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  height: 22px;
+  left: 0;
+  letter-spacing: -0.7px;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 1px;
+  width: 66px;
+}
+
+.m .vector-3 {
+  height: 12px;
+  left: 86px;
+  position: absolute;
+  top: 6px;
+  width: 1px;
+}
+
+.m .vector-4 {
+  height: 12px;
+  left: 206px;
+  position: absolute;
+  top: 6px;
+  width: 1px;
+}

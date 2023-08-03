@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { User } from "@/lib/data";
+
 import {
   Box,
   Button,
@@ -15,11 +15,13 @@ import {
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import axios from "axios";
 
 export default function Home() {
-  const [data, setData] = useState<User[]>([]);
   const [isClient, setIsClient] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [pswd, setPswd] = useState("");
+  const [id, setId] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -27,6 +29,32 @@ export default function Home() {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
+  };
+
+  async function loginRequest(id: string, pswd: string) {
+    try {
+      const data = { userid: id, orid: "G01001000", pswd: pswd };
+      console.log("data::", data);
+
+      const res = await axios.post(
+        "http://api.cinet.global:8081/api/user/login",
+        data
+      );
+      const member = res.data;
+
+      localStorage.setItem("member_data", JSON.stringify(member));
+    } catch (err) {
+      console.error("Error adding equipment:", err);
+    }
+  }
+  const handle_id = (e: any) => {
+    setId(e.target.value);
+    console.log(id);
+  };
+
+  const handle_orid = (e: any) => {
+    setPswd(e.target.value);
+    console.log(pswd);
   };
 
   useEffect(() => {
@@ -80,6 +108,7 @@ export default function Home() {
               id="standard-basic"
               label=""
               variant="standard"
+              onChange={handle_id}
             />
           </Box>
           <Box
@@ -93,6 +122,7 @@ export default function Home() {
 
             <FormControl sx={{ width: "50%" }} variant="standard">
               <Input
+                onChange={handle_orid}
                 id="standard-adornment-password"
                 type={showPassword ? "text" : "password"}
                 endAdornment={
@@ -122,6 +152,9 @@ export default function Home() {
           }}
         >
           <Button
+            onClick={() => {
+              loginRequest(id, pswd);
+            }}
             className="login_btn"
             sx={{ width: "40%", color: "black", backgroundColor: "#7fff00" }}
             variant="contained"
